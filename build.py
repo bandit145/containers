@@ -4,14 +4,14 @@ import docker
 import os
 import sys
 import json
-from multiprocessing import Pool
+# from multiprocessing import Pool
 
 parser = argparse.ArgumentParser(description='build containers')
 parser.add_argument('-d', '--dir', help='directory to build from. If not used builds all')
 parser.add_argument('-t', '--tag', help='tag for build')
 parser.add_argument('-l', '--labels', help='labels in label=thing,label2=thing')
 parser.add_argument('-p', '--push', help='push container when done')
-parser.add_argument('--test', help='run tests before pushing')
+parser.add_argument('--test', help='run tests before pushing', action='store_true')
 parser.add_argument('-w', '--workers', help='number of workers', type=int, default=4)
 
 args = parser.parse_args()
@@ -40,14 +40,28 @@ def build_container(client, cont, tag, labels={}):
 	except docker.errors.BuildError as error:
 		print('==> Build failure', str(error), file=sys.stderr)
 		sys.exit(1)
-	except: docker.errors.APIError:
+	except docker.errors.APIError:
 		print('==> Docker API error. Is the docker daemon running? or do you have permission?')
 		sys.exit(1)
 
 
-def test_container(cont):
+def test_container(client, cont):
+	print('==> Loading tests for {0}'.format(cont))
+	with open(cont + '/test.json', 'r') as test:
+		tests = json.load(test)
 	print('==> Starting test of container {0}'.format(cont))
-	pass
+	running_cont = client.containers.run(cont, detach=True)
+	for test in tests:
+		output = running_cont.exec_run(test['command'])
+		try:
+			assert eval(test['assert'].strip() +" "+ "\""+str(output.output)+"\"")
+		except AssertionError:
+			print('==> Test failed', file=sys.stderr)
+			print('==> assert {0} {1}'.format(test['assert'], str(output.output)))
+			running_cont.remove(force=True)
+			sys.exit(1)
+	running_cont.remove(force=True)
+	print('==> Tests pass for {0}'.format(cont))
 
 
 def push_container(client, cont):
@@ -72,7 +86,7 @@ def container_process(client, labels):
 	if args.dir and args.dir in dirs:
 		build_container(client, args.dir, args.tag, labels)
 		if args.test:
-			test_container()
+			test_container(client, args.dir)
 		if args.push:
 			push_container()
 	elif cont not in dires and args.dir:
