@@ -8,12 +8,15 @@ before_install:
   - pip install -r requirements.txt
   - chmod +x build.py
 
+stages:
+  - name: test
+    if: type = pull_request
+  - name: deploy
+    if: branch = master
+
 jobs:
-  test:
-    - name: test
-      script: ./build.py --test --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
-  if: type = pull_request
-  deploy:
-    - name: deploy
-      script: ./build.py --test --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
-  if: branch = master
+  include:
+    - stage: test
+      script: ./build.py --test
+    - stage: deploy
+      script: ./build.py --test --push --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
