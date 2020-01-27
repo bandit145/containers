@@ -1,0 +1,7 @@
+[
+	{
+		"command": "ps",
+		"assert": "'kea-dhcp4' in"
+	}
+
+]
