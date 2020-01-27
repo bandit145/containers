@@ -37,7 +37,7 @@ def build_container(client, cont, tag, labels={}):
 		print('==> Starting build of container {0}'.format(cont))
 		image = client.images.build(path=cont, tag=tag, labels=labels, rm=True, forcerm=True)
 		try:
-			[print('==>', x['stream']) for x in image[1]]
+			[print('==>', x['stream']) for x in image[1] if 'stream' in x.keys()]
 		except KeyError:
 			[print('==>', x) for x in image[1]]
 			sys.exit(1)
