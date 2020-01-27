@@ -36,7 +36,11 @@ def build_container(client, cont, tag, labels={}):
 	try:
 		print('==> Starting build of container {0}'.format(cont))
 		image = client.images.build(path=cont, tag=tag, labels=labels, rm=True, forcerm=True)
-		[print('==>', x['stream']) for x in image[1]]
+		try:
+			[print('==>', x['stream']) for x in image[1]]
+		except KeyError:
+			print(image[1], file=sys.stderr)
+			sys.exit(1)
 		return image[0]
 	except docker.errors.BuildError as error:
 		print('==> Build failure', str(error), file=sys.stderr)
@@ -107,7 +111,7 @@ def container_process(cont, tag, labels):
 
 def main():
 	labels = get_labels(args.labels)
-	dirs = [x for x in os.listdir('.') if x != 'venv' and os.path.isdir(x)]
+	dirs = [x for x in os.listdir('.') if x != 'venv' and x != '.git' and os.path.isdir(x)]
 	if args.dir and args.dir in dirs:
 		container_process(args.dir, args.tag, labels)
 	elif args.dir and args.dir not in dirs:
