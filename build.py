@@ -39,7 +39,7 @@ def build_container(client, cont, tag, labels={}):
 		try:
 			[print('==>', x['stream']) for x in image[1]]
 		except KeyError:
-			print(image[1], file=sys.stderr)
+			[print('==>', x) for x in image[1]]
 			sys.exit(1)
 		return image[0]
 	except docker.errors.BuildError as error:
