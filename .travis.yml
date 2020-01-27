@@ -1,0 +1,19 @@
+language: python
+services:
+  - docker
+python:
+- '3.7'
+
+before_install:
+  - pip install -r requirements.txt
+  - chmod +x build.py
+
+jobs:
+  test:
+    - name: test
+      script: ./build.py --test --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
+  if: type = pull_request
+  deploy:
+    - name: deploy
+      script: ./build.py --test --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
+  if: branch = master
