@@ -84,7 +84,7 @@ def push_container(client, cont, tag, repo):
 	output = client.images.push(repo, auth_config=get_creds())
 	print(output)
 	for item in output:
-		if 'errorDetail' in item.keys():
+		if 'errorDetail' in item:
 			sys.exit(1)
 	
 
