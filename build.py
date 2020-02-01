@@ -83,6 +83,9 @@ def push_container(client, cont, tag, repo):
 	print(repo)
 	output = client.images.push(repo, auth_config=get_creds())
 	print(output)
+	for item in output:
+		if 'errorDetail' in item.keys():
+			sys.exit(1)
 	
 
 def get_cont_info(cont):
@@ -102,11 +105,11 @@ def container_process(cont, tag, labels):
 	info = get_cont_info(cont)
 	if not tag:
 		tag = info['tag']
-	image = build_container(client, cont, tag, labels)
+	image = build_container(client, cont, info['repo'] + tag, labels)
 	if args.test:
-		test_container(client, cont, info['repo'])
+		test_container(client, cont, info['repo'] + tag.split(':')[0])
 	if args.push:
-		push_container(client, cont, tag, info['repo'])
+		push_container(client, cont, tag, info['repo'] + tag.split(':')[0])
 
 
 def main():
