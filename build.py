@@ -104,7 +104,7 @@ def container_process(cont, tag, labels):
 		tag = info['tag']
 	image = build_container(client, cont, tag, labels)
 	if args.test:
-		test_container(client, cont, cont)
+		test_container(client, cont, info['repo'])
 	if args.push:
 		push_container(client, cont, tag, info['repo'])
 
