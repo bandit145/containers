@@ -4,4 +4,4 @@ RUN apk update && apk upgrade
 RUN mkdir /hi
 VOLUME /hi
 EXPOSE 67/udp
-CMD /bin/cat
+CMD tail -f /dev/null
