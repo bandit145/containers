@@ -1,10 +1,7 @@
 [
-<<<<<<< HEAD
+
 	{
 		"command": "ps",
 		"assert": "'cat' in"
 	}
-=======
->>>>>>> master
-
 ]
