@@ -78,7 +78,7 @@ def get_creds():
 	return {'username': user, 'password': password}
 
 
-def push_container(client, cont, tag, repo):
+def push_container(client, cont, repo):
 	print('==> Pushing container {0} to {1}'.format(cont, repo))
 	print(repo)
 	output = client.images.push(repo, auth_config=get_creds())
@@ -109,7 +109,7 @@ def container_process(cont, tag, labels):
 	if args.test:
 		test_container(client, cont, info['repo'] + tag)
 	if args.push:
-		push_container(client, cont, tag, info['repo'] + tag)
+		push_container(client, cont, info['repo'] + tag.split(':')[0])
 
 
 def main():
