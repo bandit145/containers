@@ -1,0 +1,5 @@
+{
+	"tag":"dnsmasq:latest",
+	"repo":"quay.io/bandit145/",
+	"capabilites": ["NET_ADMIN"]
+}

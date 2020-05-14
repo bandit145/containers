@@ -50,12 +50,12 @@ def build_container(client, cont, tag, labels={}):
 		sys.exit(1)
 
 
-def test_container(client, cont, cont_long_name):
+def test_container(client, cont, cont_long_name, capabilites):
 	print('==> Loading tests for {0}'.format(cont))
 	with open(cont + '/test.json', 'r') as test:
 		tests = json.load(test)
 	print('==> Starting test of container {0}'.format(cont))
-	running_cont = client.containers.run(cont_long_name, detach=True)
+	running_cont = client.containers.run(cont_long_name, detach=True, cap_add=capabilites)
 	for test in tests:
 		output = running_cont.exec_run(test['command'])
 		try:
@@ -105,9 +105,13 @@ def container_process(cont, tag, labels):
 	info = get_cont_info(cont)
 	if not tag:
 		tag = info['tag']
+	if 'capabilites' not in info.keys():
+		capabilites = None
+	else:
+		capabilites = info['capabilites']
 	image = build_container(client, cont, info['repo'] + tag, labels)
 	if args.test:
-		test_container(client, cont, info['repo'] + tag)
+		test_container(client, cont, info['repo'] + tag, capabilites)
 	if args.push:
 		push_container(client, cont, info['repo'] + tag.split(':')[0])
 
