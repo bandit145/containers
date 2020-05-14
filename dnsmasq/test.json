@@ -1,0 +1,7 @@
+[
+	{
+		"command": "ps",
+		"assert": "'dnsmasq' in"
+	}
+
+]
