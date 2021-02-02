@@ -8,5 +8,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
+      - name: install pip reqs
+        run: pip install -r requirements.txt
       - name: run build test script
         run: python build.py --test
