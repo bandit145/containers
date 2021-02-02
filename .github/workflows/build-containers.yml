@@ -6,7 +6,7 @@ on:
 jobs:
   build-containers:
     runs-on: ubuntu-latest
-    environment: build-containers
+    environment:  build_containers
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -16,3 +16,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: run build test script
         run: python build.py --test --push --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
+        with: 
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
