@@ -1,0 +1,12 @@
+name: test-containers
+on: [pull_request]
+jobs:
+  test-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - actions/checkout@v2
+      - uses: action/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: run build test script
+        run: python build.py --test
