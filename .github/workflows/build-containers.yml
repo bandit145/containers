@@ -16,6 +16,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: run build test script
         run: python build.py --test --push --userenv QUAY_USERNAME --passwordenv QUAY_PASSWORD
-        with: 
+        env: 
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
