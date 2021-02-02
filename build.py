@@ -118,7 +118,7 @@ def container_process(cont, tag, labels):
 
 def main():
 	labels = get_labels(args.labels)
-	dirs = [x for x in os.listdir('.') if x != 'venv' and x != '.git' and os.path.isdir(x)]
+	dirs = [x for x in os.listdir('.') if x != 'venv' and '.' not in x and os.path.isdir(x)]
 	if args.dir and args.dir in dirs:
 		container_process(args.dir, args.tag, labels)
 	elif args.dir and args.dir not in dirs:
