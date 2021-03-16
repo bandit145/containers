@@ -1,4 +1,13 @@
 {
-	"tag":"tftp:latest",
-	"repo":"quay.io/bandit145/"
+        "repo":"quay.io/bandit145/tftp",
+        "src":{
+        	"type": "NoRepo",
+                "args": {
+        	       "url": null
+                }
+        },
+        "strategy": {
+        	"name": "blind_build",
+                "args": {}
+        }
 }

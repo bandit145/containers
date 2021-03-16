@@ -1,4 +1,13 @@
 {
-	"tag":"test-alpine:latest",
-	"repo":"quay.io/bandit145/"
+        "repo":"quay.io/bandit145/test-alpine",
+        "src":{
+        	"type": "NoRepo",
+                "args": {
+        	       "url": null
+                }
+        },
+        "strategy": {
+        	"name": "blind_build",
+                "args": {}
+        }
 }

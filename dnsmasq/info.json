@@ -1,5 +1,13 @@
 {
-	"tag":"dnsmasq:latest",
-	"repo":"quay.io/bandit145/",
-	"capabilites": ["NET_ADMIN"]
+        "repo":"quay.io/bandit145/dnsmasq",
+        "src":{
+        	"type": "NoRepo",
+                "args": {
+        	       "url": null
+                }
+        },
+        "strategy": {
+        	"name": "blind_build",
+                "args": {}
+        }
 }
