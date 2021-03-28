@@ -11,4 +11,4 @@ jobs:
       - name: install pip reqs
         run: pip install -r requirements.txt
       - name: run build test script
-        run: builder --test
+        run: builder --test --log-dir .
