@@ -1,4 +1,13 @@
 {
-	"tag":"apache:latest",
-	"repo":"quay.io/bandit145/"
+        "repo":"quay.io/bandit145/apache",
+        "src":{
+        	"type": "NoRepo",
+                "args": {
+        	       "url": null
+                }
+        },
+        "strategy": {
+        	"name": "blind_build",
+                "args": {}
+        }
 }

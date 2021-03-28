@@ -1,4 +1,14 @@
 {
-	"tag":"isc-kea4:latest",
-	"repo":"quay.io/bandit145/"
+        "repo":"quay.io/bandit145/isc-kea4",
+        "capabilities": ["NET_RAW"],
+        "src":{
+        	"type": "NoRepo",
+                "args": {
+        	       "url": null
+                }
+        },
+        "strategy": {
+        	"name": "blind_build",
+                "args": {}
+        }
 }
